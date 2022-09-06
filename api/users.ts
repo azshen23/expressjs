@@ -1,6 +1,3 @@
-const userModel = require("../models/user");
-const verificationModel = require("../models/userVerification");
-const tokenModel = require("../models/token");
 import * as trpc from "@trpc/server";
 import { z } from "zod";
 import { PrismaClient } from "@prisma/client";
