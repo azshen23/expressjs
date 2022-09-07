@@ -1,20 +1,21 @@
 import jwt from "jsonwebtoken";
+import { StringLiteral } from "typescript";
 export interface User {
+  id: number;
   email: string;
 }
 
-export async function decodeAndVerifyJwtToken(token: string) {
-  return jwt.verify(token, process.env.ACCESS_TOKEN_SECRET!, (err, user) => {
-    if (err) console.log("error");
-    return user;
-  });
+export async function decodeAndVerifyJwtToken(token: string): Promise<User> {
+  const user = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET!) as User;
+  return user;
 }
 
-export async function decodeAndVerifyRefreshToken(token: string) {
+export async function decodeAndVerifyRefreshToken(
+  token: string
+): Promise<User> {
   const decodedToken = jwt.verify(
     token,
     process.env.REFRESH_TOKEN_SECRET!
   ) as User;
-  if (!decodedToken) throw new Error("error decoding refresh token");
   return decodedToken;
 }
