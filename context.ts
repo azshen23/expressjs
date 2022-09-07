@@ -1,7 +1,6 @@
 import { inferAsyncReturnType } from "@trpc/server";
 import * as trpcNext from "@trpc/server/adapters/next";
 import { decodeAndVerifyJwtToken } from "./utils/verifyJwt";
-import { User } from "./utils/verifyJwt";
 export async function createContext({
   req,
   res,
