@@ -1,12 +1,9 @@
 import * as trpc from "@trpc/server";
 import { z } from "zod";
-import { PrismaClient } from "@prisma/client";
 import { Context } from "../context";
 import { TRPCError } from "@trpc/server";
 import * as userModel from "../models/users";
 import * as postModel from "../models/posts";
-
-const prisma = new PrismaClient();
 
 require("dotenv").config();
 
@@ -21,7 +18,7 @@ export const userRouter = trpc
   .query("getUser", {
     input: String,
     async resolve({ input }) {
-      const userData = await userModel.getUserData(parseInt(input), prisma);
+      const userData = await userModel.getUserData(parseInt(input));
       if (!userData) {
         throw new TRPCError({
           code: "NOT_FOUND",
@@ -35,7 +32,7 @@ export const userRouter = trpc
   .query("getUserPosts", {
     input: String,
     async resolve({ input }) {
-      const userPosts = await postModel.getUserPosts(parseInt(input), prisma);
+      const userPosts = await postModel.getUserPosts(parseInt(input));
       return userPosts;
     },
   });

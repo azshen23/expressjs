@@ -1,17 +1,7 @@
-interface userInfo {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-  pfpUrl: string;
-  verified: boolean;
-}
+import prisma from "../lib/prisma";
 
-export async function getUserData(
-  userID: number,
-  prisma: any
-): Promise<userInfo> {
-  const userData: userInfo = await prisma.users.findUnique({
+export async function getUserData(userID: number) {
+  const userData = await prisma.users.findUnique({
     where: {
       id: userID,
     },
