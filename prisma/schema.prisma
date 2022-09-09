@@ -15,6 +15,7 @@ model users {
   password String
   verified Boolean @default(false)
   pfpurl   String?
+  streak   Int     @default(0)
 }
 
 model userverification {
@@ -30,9 +31,11 @@ model refreshtokens {
 }
 
 model posts {
-  id         Int    @id @default(autoincrement())
+  id         Int     @id @default(autoincrement())
   authorid   Int
   dateposted String
   title      String
   content    String
+  mood       Int?
+  public     Boolean @default(false)
 }

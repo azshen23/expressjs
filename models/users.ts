@@ -12,6 +12,7 @@ export async function getUserData(userID: number) {
       email: true,
       verified: true,
       pfpurl: true,
+      streak: true,
     },
   });
   return userData;
