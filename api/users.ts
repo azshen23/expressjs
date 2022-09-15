@@ -15,6 +15,11 @@ export const userRouter = trpc
     }
     return next();
   })
+  .query("getAnduru", {
+    async resolve() {
+      return "I want a girlfriend that loves and will support my goals. Someone that listens to me. Someone that is open and someone who holds themselves to their words. ";
+    },
+  })
   .query("getUser", {
     input: String,
     async resolve({ input }) {
