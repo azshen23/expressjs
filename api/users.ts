@@ -62,6 +62,37 @@ export const userRouter = trpc
         };
       }
     },
+  })
+  .mutation("updatePostPublicStatus", {
+    input: z.object({
+      postID: z.number(),
+      authorID: z.number(),
+      newPublicStatus: z.boolean(),
+    }),
+    async resolve({ input, ctx }) {
+      const userID = ctx.user?.id;
+      if (!userID) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "User ID could not be found",
+        });
+      } else {
+        if (userID != input.authorID) {
+          throw new TRPCError({
+            code: "FORBIDDEN",
+            message: "User is not allowed to edit this post",
+          });
+        }
+        await postModel.updatePostPublicStatus(
+          input.postID,
+          input.newPublicStatus
+        );
+        return {
+          status: "SUCCESS",
+          message: "Post Public Status updated successfully",
+        };
+      }
+    },
   });
 
 export type userRouter = typeof userRouter;

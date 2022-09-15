@@ -31,6 +31,13 @@ export const postRouter = trpc
         message: "Post Created Successfully",
       };
     },
+  })
+  .query("getPublicPosts", {
+    input: z.number(),
+    async resolve({ input }) {
+      const posts = await postModel.getPublicPosts(input);
+      return posts;
+    },
   });
 
 export type postRouter = typeof postRouter;
