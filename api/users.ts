@@ -35,6 +35,33 @@ export const userRouter = trpc
       const userPosts = await postModel.getUserPosts(parseInt(input));
       return userPosts;
     },
+  })
+  .mutation("deletePost", {
+    input: z.object({
+      postID: z.number(),
+      authorID: z.number(),
+    }),
+    async resolve({ input, ctx }) {
+      const userID = ctx.user?.id;
+      if (!userID) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "User ID could not be found",
+        });
+      } else {
+        if (userID != input.authorID) {
+          throw new TRPCError({
+            code: "FORBIDDEN",
+            message: "User is not allowed to delete this post",
+          });
+        }
+        await postModel.deletePost(input.postID);
+        return {
+          status: "SUCCESS",
+          message: "Post deleted successfully",
+        };
+      }
+    },
   });
 
 export type userRouter = typeof userRouter;

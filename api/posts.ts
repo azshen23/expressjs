@@ -22,6 +22,7 @@ export const postRouter = trpc
       title: z.string(),
       content: z.string(),
       mood: z.number(),
+      public: z.boolean(),
     }),
     async resolve({ input }) {
       await postModel.createPost(input);

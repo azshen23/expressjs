@@ -1,3 +1,4 @@
+import { TRPCError } from "@trpc/server";
 import prisma from "../lib/prisma";
 
 export async function getUserPosts(userID: number) {
@@ -11,7 +12,7 @@ export async function getUserPosts(userID: number) {
 }
 
 export async function createPost(body: any) {
-  const { authorid, dateposted, title, content, mood } = body;
+  const { authorid, dateposted, title, content, mood, isPublic } = body;
   await prisma.posts.create({
     data: {
       authorid: authorid,
@@ -19,6 +20,15 @@ export async function createPost(body: any) {
       title: title,
       content: content,
       mood: mood,
+      public: isPublic,
+    },
+  });
+}
+
+export async function deletePost(postID: number) {
+  await prisma.posts.delete({
+    where: {
+      id: postID,
     },
   });
 }

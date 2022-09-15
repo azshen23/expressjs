@@ -32,6 +32,8 @@ describe("GET /getUser", function () {
       dateposted: "some time",
       title: "your mom",
       content: "your mother is very hot ",
+      mood: 0,
+      public: false,
     });
   });
 });
