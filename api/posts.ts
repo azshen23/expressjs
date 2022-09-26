@@ -24,12 +24,19 @@ export const postRouter = trpc
       mood: z.number(),
       public: z.boolean(),
     }),
-    async resolve({ input }) {
-      await postModel.createPost(input);
-      return {
-        status: "SUCCESS",
-        message: "Post Created Successfully",
-      };
+    async resolve({ input, ctx }) {
+      if (ctx.user?.id != input.authorid) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "Author ID does not match authentication id",
+        });
+      } else {
+        await postModel.createPost(input);
+        return {
+          status: "SUCCESS",
+          message: "Post Created Successfully",
+        };
+      }
     },
   })
   .query("getPublicPosts", {
